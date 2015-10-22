@@ -25,7 +25,21 @@
  *
  * @return undefined
  */
-
+function addStudent() {
+    var temp = $("#studentName").val();
+    var temp1 = $("#course").val();
+    var temp3 = $("#studentGrade").val();
+    var student = {
+        stuname: "",
+        course: "",
+        grade: ""
+    };
+    student.stuname = temp;
+    student.course = temp1;
+    student.grade = temp3;
+    student_array.push(student);
+    $("input:text").val("");
+}
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
