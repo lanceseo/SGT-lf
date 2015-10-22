@@ -18,7 +18,12 @@
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
-
+$("document").ready(function(){
+$(".btn-default").attr("onclick","cancelClicked()");
+});
+function cancelClicked() {
+    $("input:text").val("");
+}
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  *
