@@ -5,7 +5,7 @@
  * student_array - global array to hold student objects
  * @type {Array}
  */
-
+var student_array = [];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
@@ -14,7 +14,9 @@
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-
+$("document").ready(function(){
+    $(".btn-success").attr("onclick","addStudent()");
+});
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -66,7 +68,17 @@ function addStudent() {
  * into the .student_list tbody
  * @param studentObj
  */
-
+    var stuname = student_array[0].stuname;
+    var course = student_array[0].course;
+    var grade = student_array[0].grade;
+    var studenttr = $("<tr>");
+    var studenttdname = $("<td>").text(stuname);
+    var studenttdcourse = $("<td>").text(course);
+    var studenttdgrade = $("<td>").text(grade);
+    var deletebuttontd = $("<td>")
+    var deletebutton = $("<button>").addClass("btn btn-danger").attr("onclick","clearAddStudentForm");
+    deletebuttontd.append(deletebutton);
+    studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
