@@ -17,7 +17,7 @@ var student_grade = $("#studentGrade");
  * addClicked - Event Handler when user clicks the add button
  */
 $("document").ready(function(){
-    $(".btn-success").attr("onclick","addStudent()");
+    $(".btn-success").attr("onclick","updateStudentList()");
 });
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
@@ -42,7 +42,6 @@ function addStudent() {
     student.stuname = student_name.val();
     student.course = student_course.val();
     student.grade = student_grade.val();
-    addStudentToDom(student);
     student_array.push(student);
     $("input").val("");
 }
@@ -65,13 +64,14 @@ function cancelClicked() {
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-function updateStudentList(array) {
+function updateStudentList() {
+    addStudent();
     function clearboard() {
         $(".student-list tbody").empty();
     }
     clearboard();
-    for (i=0;i<array.length;i++) {
-        addStudentToDom(array[i]);
+    for (i=0;i<student_array.length;i++) {
+        addStudentToDom(student_array[i], i);
     }
 }
 /**
@@ -79,16 +79,20 @@ function updateStudentList(array) {
  * into the .student_list tbody
  * @param studentObj
  */
-function addStudentToDom(object) {
+function addStudentToDom(object, i) {
     var stuname = object.stuname;
     var course = object.course;
     var grade = object.grade;
+    var index = object.index;
     var studenttr = $("<tr>");
     var studenttdname = $("<td>").text(stuname);
     var studenttdcourse = $("<td>").text(course);
     var studenttdgrade = $("<td>").text(grade);
     var deletebuttontd = $("<td>");
-    var deletebutton = $("<button>").addClass("btn btn-danger").text("Delete").click(function(){$(this).parents("tr").remove()});
+    var deletebutton = $("<button>").addClass("btn btn-danger").text("Delete").click(function(){
+        $(this).parents("tr").remove();
+        student_array.splice(index,1);
+    });
     deletebuttontd.append(deletebutton);
     studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
     $(".student-list tbody").append(studenttr);
