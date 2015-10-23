@@ -57,8 +57,11 @@ function addStudent() {
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
- */var grade1 = student_array[]
+ */
+for (i=0;i<array.length;i++){
+    var grade = array[i].grade;
 
+}
 /**
  * updateData - centralized function to update the average and call student list update
  */
@@ -67,6 +70,10 @@ function addStudent() {
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
     function updateStudentList(array) {
+    function clearboard() {
+        $(".student-list tbody").empty();
+    }
+    clearboard();
     for (i=0;i<array.length;i++) {
         var stuname = student_array[i].stuname;
         var course = student_array[i].course;
