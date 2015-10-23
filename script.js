@@ -83,7 +83,7 @@ function addStudentToDom(object, i) {
     var stuname = object.stuname;
     var course = object.course;
     var grade = object.grade;
-    var index = object.index;
+    var index = i;
     var studenttr = $("<tr>");
     var studenttdname = $("<td>").text(stuname);
     var studenttdcourse = $("<td>").text(course);
