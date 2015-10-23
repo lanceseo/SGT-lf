@@ -1,12 +1,11 @@
 /**
  * Define all global variables here
  */
-
 /**
  * student_array - global array to hold student objects
  * @type {Array}
  */
-
+var student_array = [];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
@@ -22,7 +21,7 @@ $("document").ready(function(){
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
 $("document").ready(function(){
-$(".btn-default").attr("onclick","cancelClicked()");
+    $(".btn-default").attr("onclick","cancelClicked()");
 });
 function cancelClicked() {
     $("input:text").val("");
@@ -58,9 +57,16 @@ function addStudent() {
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
  */
-for (i=0;i<array.length;i++){
-    var grade = array[i].grade;
+var gradeAverage;
 
+function calculateAverage (){
+
+    for (i = 0; i < array.length; i++) {
+        var grade = array[i].grade;
+        var gradeTotal += grade;
+    }
+    var gradeAvg = (gradeTotal / (array.length - 1));
+    return gradeAvg;
 }
 /**
  * updateData - centralized function to update the average and call student list update
@@ -69,7 +75,7 @@ for (i=0;i<array.length;i++){
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-    function updateStudentList(array) {
+function updateStudentList(array) {
     function clearboard() {
         $(".student-list tbody").empty();
     }
@@ -94,7 +100,7 @@ for (i=0;i<array.length;i++){
  * into the .student_list tbody
  * @param studentObj
  */
-    function addStudentToDom() {
+function addStudentToDom() {
     var stuname = student_array[student_array.length - 1].stuname;
     var course = student_array[student_array.length - 1].course;
     var grade = student_array[student_array.length - 1].grade;
