@@ -43,6 +43,9 @@ function addStudent() {
     student.stuname = temp;
     student.course = temp1;
     student.grade = temp3;
+    if (temp == "" || temp1 == "" || temp3 == "") {
+        return;
+    }
     student_array.push(student);
     $("input:text").val("");
 }
@@ -62,23 +65,41 @@ function addStudent() {
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-
+    function updateStudentList(array) {
+    for (i=0;i<array.length;i++) {
+        var stuname = student_array[i].stuname;
+        var course = student_array[i].course;
+        var grade = student_array[i].grade;
+        var studenttr = $("<tr>");
+        var studenttdname = $("<td>").text(stuname);
+        var studenttdcourse = $("<td>").text(course);
+        var studenttdgrade = $("<td>").text(grade);
+        var deletebuttontd = $("<td>");
+        var deletebutton = $("<button>").addClass("btn btn-danger").attr("onclick", "clearAddStudentForm()").text("Delete");
+        deletebuttontd.append(deletebutton);
+        studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
+        $(".student-list tbody").append(studenttr);
+    }
+}
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
  * into the .student_list tbody
  * @param studentObj
  */
-    var stuname = student_array[0].stuname;
-    var course = student_array[0].course;
-    var grade = student_array[0].grade;
+    function addStudentToDom() {
+    var stuname = student_array[student_array.length - 1].stuname;
+    var course = student_array[student_array.length - 1].course;
+    var grade = student_array[student_array.length - 1].grade;
     var studenttr = $("<tr>");
     var studenttdname = $("<td>").text(stuname);
     var studenttdcourse = $("<td>").text(course);
     var studenttdgrade = $("<td>").text(grade);
-    var deletebuttontd = $("<td>")
-    var deletebutton = $("<button>").addClass("btn btn-danger").attr("onclick","clearAddStudentForm");
+    var deletebuttontd = $("<td>");
+    var deletebutton = $("<button>").addClass("btn btn-danger").attr("onclick", "clearAddStudentForm()").text("Delete");
     deletebuttontd.append(deletebutton);
     studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
+    $(".student-list tbody").append(studenttr);
+}
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
