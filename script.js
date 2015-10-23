@@ -1,16 +1,23 @@
 /**
  * Define all global variables here
  */
+var student = {
+    stuname: "",
+    course: "",
+    grade: ""
+};
 
 /**
  * student_array - global array to hold student objects
  * @type {Array}
  */
+var student_array = [];
 
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
  */
+var studentName = $("<")
 
 /**
  * addClicked - Event Handler when user clicks the add button
@@ -34,11 +41,11 @@ function addStudent() {
     var temp = $("#studentName").val();
     var temp1 = $("#course").val();
     var temp3 = $("#studentGrade").val();
-    var student = {
-        stuname: "",
-        course: "",
-        grade: ""
-    };
+    //var student = {
+    //    stuname: "",
+    //    course: "",
+    //    grade: ""
+    //};
     student.stuname = temp;
     student.course = temp1;
     student.grade = temp3;
@@ -52,7 +59,7 @@ function addStudent() {
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
- */
+ */var grade1 = student_array[]
 
 /**
  * updateData - centralized function to update the average and call student list update
