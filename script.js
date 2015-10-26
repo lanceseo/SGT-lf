@@ -32,11 +32,7 @@ $("document").ready(function(){
  * @return undefined
  */
 function addStudent() {
-    var student = {
-        stuname: "",
-        course: "",
-        grade: ""
-    };
+    var student = {};
     var student_name = $("#studentName");
     var student_course = $("#course");
     var student_grade = $("#studentGrade");
@@ -67,8 +63,8 @@ function calculateAverage(){
         grade = parseInt(student_array[i].grade);
         gradeTotal += grade;
     }
-    gradeAvg = Math.round((gradeTotal / (student_array.length)));
-    $(".avgGrade").text(gradeAvg);
+    gradeAvg = (gradeTotal / (student_array.length));
+    $(".avgGrade").text(parseInt(gradeAvg));
     return gradeAvg;
 }
 /**
@@ -107,6 +103,7 @@ function addStudentToDom(object, i) {
     var deletebutton = $("<button>").addClass("btn btn-danger").text("Delete").click(function(){
         $(this).parents("tr").remove();
         student_array.splice(index,1);
+        calculateAverage();
     });
     deletebuttontd.append(deletebutton);
     studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
@@ -117,6 +114,9 @@ function addStudentToDom(object, i) {
  */
 function reset(){
     $("tbody").empty();
+    var nostudent = $("<h3>").text("User Info Unavailable");
+    $(".student-list-container").append(nostudent);
+    student_array = [];
 }
 /**
  * Listen for the document to load and reset the data to the initial state
