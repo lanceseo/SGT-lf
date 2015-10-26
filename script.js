@@ -81,8 +81,14 @@ function updateStudentList() {
         $(".student-list tbody").empty();
     }
     clearboard();
-    for (i=0;i<student_array.length;i++) {
-        addStudentToDom(student_array[i], i);
+    if (student_array.length == 0) {
+        reset();
+    }
+    else {
+        $(".student-list-container > h3").remove()
+        for (i = 0; i < student_array.length; i++) {
+            addStudentToDom(student_array[i], i);
+        }
     }
 }
 /**
@@ -104,6 +110,11 @@ function addStudentToDom(object, i) {
         $(this).parents("tr").remove();
         student_array.splice(index,1);
         calculateAverage();
+        if (student_array.length == 0) {
+            reset();
+            $(".avgGrade").text("0");
+        }
+        else {};
     });
     deletebuttontd.append(deletebutton);
     studenttr.append(studenttdname, studenttdcourse, studenttdgrade, deletebuttontd);
@@ -121,6 +132,6 @@ function reset(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-$("document").ready(function(){
+$("document").ready(function() {
     reset();
 });
