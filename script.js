@@ -67,7 +67,7 @@ function calculateAverage(){
         grade = parseInt(student_array[i].grade);
         gradeTotal += grade;
     }
-    gradeAvg = (gradeTotal / (student_array.length));
+    gradeAvg = Math.round((gradeTotal / (student_array.length)));
     $(".avgGrade").text(gradeAvg);
     return gradeAvg;
 }
