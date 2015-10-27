@@ -42,6 +42,18 @@ function addStudent() {
     student.course = student_course.val();
     student.grade = student_grade.val();
     student.find = function(){return student_array.indexOf(this)};
+    if (student.stuname.trim() == ""){
+        console.log("invalid name");
+        return;
+    }
+    else if (student.course.trim() == ""){
+        console.log("invalid course");
+        return;
+    }
+    else if (student.grade < 0 || student.grade > 100 || student.grade.trim() == ""){
+        console.log("invalid grade");
+        return;
+    }
     student_array.push(student);
     $("input").val("");
 }
@@ -79,20 +91,18 @@ function calculateAverage(){
  */
 function updateStudentList() {
     addStudent();
+    if (student_array.length === 0){
+        return;
+    }
     calculateAverage();
     function clearboard() {
         $(".student-list tbody").empty();
     }
     clearboard();
-    if (student_array.length == 0) {
-        reset();
-    }
-    else {
-        $(".student-list-container > h3").remove()
-        for (i = 0; i < student_array.length; i++) {
-            addStudentToDom(student_array[i], i);
+    $(".student-list-container > h3").remove()
+    for (i = 0; i < student_array.length; i++) {
+        addStudentToDom(student_array[i], i);
         }
-    }
 }
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
