@@ -41,6 +41,7 @@ function addStudent() {
     student.stuname = student_name.val();
     student.course = student_course.val();
     student.grade = student_grade.val();
+    student.find = function(){return student_array.indexOf(this)};
     student_array.push(student);
     $("input").val("");
 }
@@ -99,10 +100,10 @@ function updateStudentList() {
  * @param studentObj
  */
 function addStudentToDom(object, i) {
+    object.id = i;
     var stuname = object.stuname;
     var course = object.course;
     var grade = object.grade;
-    var index = i;
     var studenttr = $("<tr>");
     var studenttdname = $("<td>").text(stuname);
     var studenttdcourse = $("<td>").text(course);
@@ -110,7 +111,7 @@ function addStudentToDom(object, i) {
     var deletebuttontd = $("<td>");
     var deletebutton = $("<button>").addClass("btn btn-danger").text("Delete").click(function(){
         $(this).parents("tr").remove();
-        student_array.splice(index,1);
+        student_array.splice(object.find(),1);
         calculateAverage();
         if (student_array.length == 0) {
             reset();
