@@ -99,10 +99,12 @@ function updateStudentList() {
  * @param studentObj
  */
 function addStudentToDom(object, i) {
+    object.indexnumber = i;
     var stuname = object.stuname;
     var course = object.course;
     var grade = object.grade;
-    var index = i;
+    var marker = i;
+    var index = student_array.indexOf(object.marker);
     var studenttr = $("<tr>");
     var studenttdname = $("<td>").text(stuname);
     var studenttdcourse = $("<td>").text(course);
