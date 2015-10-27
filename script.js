@@ -11,13 +11,18 @@ var student_array = [];
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
  */
-var student_name = $("#studentName");
-var student_course = $("#course");
-var student_grade = $("#studentGrade");
+var student_name;
+var student_course;
+var student_grade;
+var avggrade;
 /**
  * addClicked - Event Handler when user clicks the add button
  */
 $("document").ready(function(){
+    student_name = $("#studentName");
+    student_course = $("#course");
+    student_grade = $("#studentGrade");
+    avggrade = $(".avgGrade");
     $(".btn-success").attr("onclick","updateStudentList()");
 });
 /**
@@ -33,9 +38,6 @@ $("document").ready(function(){
  */
 function addStudent() {
     var student = {};
-    var student_name = $("#studentName");
-    var student_course = $("#course");
-    var student_grade = $("#studentGrade");
     student.stuname = student_name.val();
     student.course = student_course.val();
     student.grade = student_grade.val();
@@ -46,9 +48,9 @@ function addStudent() {
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function cancelClicked() {
-    $("#studentName").val("");
-    $("#studentGrade").val("");
-    $("#course").val("");
+    student_name.val("");
+    student_grade.val("");
+    student_course.val("");
 }
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
@@ -64,7 +66,7 @@ function calculateAverage(){
         gradeTotal += grade;
     }
     gradeAvg = (gradeTotal / (student_array.length));
-    $(".avgGrade").text(parseInt(gradeAvg));
+    avggrade.text(parseInt(gradeAvg));
     return gradeAvg;
 }
 /**
@@ -112,7 +114,7 @@ function addStudentToDom(object, i) {
         calculateAverage();
         if (student_array.length == 0) {
             reset();
-            $(".avgGrade").text("0");
+            avggrade.text("0");
         }
         else {};
     });
@@ -134,4 +136,5 @@ function reset(){
  */
 $("document").ready(function() {
     reset();
+    avggrade.text("0");
 });
