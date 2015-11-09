@@ -43,7 +43,7 @@ function addStudent() {
     student.grade = student_grade.val();
     student.find = function(){return student_array.indexOf(this)};
     student_array.push(student);
-    $("input").val("");
+    cancelClicked();
 }
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
@@ -68,7 +68,6 @@ function calculateAverage(){
     }
     gradeAvg = (gradeTotal / (student_array.length));
     avggrade.text(parseInt(gradeAvg));
-    return gradeAvg;
 }
 /**
  * updateData - centralized function to update the average and call student list update
