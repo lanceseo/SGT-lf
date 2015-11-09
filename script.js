@@ -38,11 +38,11 @@ $("document").ready(function(){
  */
 function addStudent() {
     var student = {};
-    student.stuname = student_name.val();
+    student.name = student_name.val();
     student.course = student_course.val();
     student.grade = student_grade.val();
     student.find = function(){return student_array.indexOf(this)};
-    if (student.stuname.trim() == ""){
+    if (student.name.trim() == ""){
         console.log("invalid name");
         return;
     }
@@ -110,7 +110,7 @@ function updateStudentList() {
  */
 function addStudentToDom(object, i) {
     object.id = i;
-    var stuname = object.stuname;
+    var stuname = object.name;
     var course = object.course;
     var grade = object.grade;
     var studenttr = $("<tr>");
@@ -148,3 +148,25 @@ $("document").ready(function() {
     reset();
     avggrade.text("0");
 });
+
+
+// ===== v1.0 Get Student Data From Server using AJAX API Call
+$("document").ready(function() {
+    $(".btn-primary").attr("onclick","getDataFromServer()");
+});
+
+function getDataFromServer() {
+    $.ajax({
+        dataType: 'json',
+        method: 'post',
+        data: {
+            api_key: '2VSlnQzAoX'
+        },
+        url: 'http://s-apis.learningfuze.com/sgt/get',
+        success: function(result) {
+            console.log("result is: ", result);
+            student_array = result.data;
+       }
+    });
+    updateStudentList();
+}
