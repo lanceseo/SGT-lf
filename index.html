@@ -42,13 +42,23 @@
                    placeholder="Student Grade">
         </div>
         <button type="button" class="btn btn-success" onclick="">Add</button>
-        <button type="button" class="btn btn-default" onclick="">Cancel</button><br>
-        <button type="button" class="btn btn-primary" onclick="">Get data From Server</button>
+        <button type="button" class="btn btn-default" onclick="">Cancel</button><br><br>
+        <button type="button" class="btn btn-primary" onclick="">Get data From Server</button><br><br>
+
+        <div class="form-group input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+            <input type="text" class="form-control" name="studentID" id="studentID"
+                   placeholder="Student ID">
+        </div>
+        <button type="button" class="btn btn-danger" onclick="">Delete by ID</button>
     </div>
     <div class="student-list-container col-sm-9">
         <table class="student-list table">
             <thead>
             <tr>
+                <th>Student ID</th>
                 <th>Student Name</th>
                 <th>Student Course</th>
                 <th>Student Grade</th>

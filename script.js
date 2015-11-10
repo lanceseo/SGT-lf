@@ -11,6 +11,7 @@ var student_array = [];
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
  */
+var student_id;
 var student_name;
 var student_course;
 var student_grade;
@@ -19,6 +20,7 @@ var avggrade;
  * addClicked - Event Handler when user clicks the add button
  */
 $("document").ready(function(){
+    student_id = $("#studentID");
     student_name = $("#studentName");
     student_course = $("#course");
     student_grade = $("#studentGrade");
@@ -36,7 +38,7 @@ $("document").ready(function(){
  *
  * @return undefined
  */
-function addStudent() {
+function addStudent() {     // *** 3
     var student = {};
     student.name = student_name.val();
     student.course = student_course.val();
@@ -55,12 +57,14 @@ function addStudent() {
         return;
     }
     student_array.push(student);
+
+    addToServer(student.name, student.course, student.grade);
     cancelClicked();
 }
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
-function cancelClicked() {
+function cancelClicked() {      // *** 4
     student_name.val("");
     student_grade.val("");
     student_course.val("");
@@ -69,7 +73,7 @@ function cancelClicked() {
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
  */
-function calculateAverage(){
+function calculateAverage(){        // *** 2
     var grade;
     var gradeTotal = 0;
     var gradeAvg = 0;
@@ -88,7 +92,7 @@ function calculateAverage(){
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-function updateStudentList() {
+function updateStudentList() {      // *** 1
     addStudent();
     if (student_array.length === 0){
         return;
@@ -108,7 +112,7 @@ function updateStudentList() {
  * into the .student_list tbody
  * @param studentObj
  */
-function addStudentToDom(object, i) {
+function addStudentToDom(object, i) {       // *** 5
     object.id = i;
     var stuname = object.name;
     var course = object.course;
@@ -156,6 +160,7 @@ $("document").ready(function() {
 });
 
 function getDataFromServer() {
+
     $.ajax({
         dataType: 'json',
         method: 'post',
@@ -168,5 +173,51 @@ function getDataFromServer() {
             student_array = result.data;
        }
     });
+
     updateStudentList();
 }
+
+
+// ===== v2.0 Add new student data to the server
+var newSID = 0;
+function addToServer(s_name, s_course, s_grade) {
+
+    $.ajax({
+        // api_key: the string for my api access
+        // student object that contains all of this student's data
+        dataType: 'json',
+        method: 'post',
+        data: {
+            api_key: '2VSlnQzAoX',
+            name: s_name,
+            course: s_course,
+            grade: s_grade
+        },
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        success: function(result) {
+            console.log("New ID: ", result.new_id);
+            newSID = result.new_id;
+        }
+    });
+
+}
+
+
+function deleteFromServer () {
+    $.ajax({
+        // api_key: the string for my api access
+        // student object that contains all of this student's data
+        dataType: 'json',
+        method: 'post',
+        data: {
+            api_key: '2VSlnQzAoX',
+            student_id: 1585
+        },
+        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        success: function(result) {
+            console.log("Result: ", result);
+        }
+    });
+}
+
+// 1566
