@@ -1,14 +1,16 @@
 $("document").ready(function() {
     $(".btn-success").on("click", function() {
-        //sgt.getFromInput();
-        sgt.addToArray();
-        sgt.addToTableDOM();
+
     });
+    $(".btn-primary").on("click", function() {
+        sgt1.getDataFromServer();
+    });
+
 });
 
 // var myStorage = localStorage;
 
-var sgt = {
+/*var sgtx = {
     studentArray: [],
     student: {
         id: 0,
@@ -39,10 +41,29 @@ var sgt = {
             var newTR = $("<tr>").append(stuID, stuName, stuCourse, stuGrade);
             $(".student-list tbody").append(newTR);
         }
-    },
-    getFromServer: function() {
-
     }
 
+};*/
+
+var sgt = function() {
+
+    this.studentArray = [];
+
+    this.getDataFromServer = function () {
+        $.ajax({
+            dataType: 'json',
+            method: 'post',
+            data: {
+                api_key: '2VSlnQzAoX'
+            },
+            url: 'http://s-apis.learningfuze.com/sgt/get',
+            success: function(result) {
+                console.log("result is: ", result);
+               // student_array = result.data;
+            }
+        });
+    };
 
 };
+
+var sgt1 = new sgt();
