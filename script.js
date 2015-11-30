@@ -9,28 +9,34 @@ $("document").ready(function() {
 
     });
     $(".btn-primary").on("click", function() {
-        a_SGT.studentArray = a_API.getDataFromServer();
-        optCallback(a_SGT.studentArray, a_DOM.populate);
+        a_API.getDataFromServer(a_SGT, a_DOM);
 
-        if (a_SGT.studentArray != "") {
-            console.log(a_SGT.studentArray);
-        }
-        else {
-            console.log("data not ready");
-        }
-        //a_DOM.populate(a_SGT.studentArray);
+        //if (a_SGT.studentArray != "") {
+        //    console.log(a_SGT.studentArray);
+        //
+        //}
+        //else {
+        //    console.log("data not ready");
+        //}
+
     });
 });
 
 
-function optCallback(options, callback) {
-    console.log(options, callback);
-    console.log(callback(options));
+function loadData(data, obj1, obj2) {
+    console.log(data, obj1, obj2);
+    obj1.setStudentArray(data);
+    obj2.populate(obj1.studentArray);
 }
 
 var SGT = function() {
     var self = this;
-    self.studentArray = [];
+    //self.studentArray = [];
+    self.setStudentArray = function(serverData) {
+        self.studentArray = serverData;
+        //a_DOM.populate(a_SGT.studentArray);
+        //console.log(self.studentArray);
+    }
 
 };
 
@@ -45,9 +51,8 @@ var Student = function() {
 
 var SGT_API = function() {
     var self = this;
-    self.getDataFromServer = function () {
+    self.getDataFromServer = function (obj1, obj2) {
         var apiKey = '2VSlnQzAoX';
-        var tempData = [];
         $.ajax({
             dataType: 'json',
             method: 'post',
@@ -56,15 +61,10 @@ var SGT_API = function() {
             },
             url: 'http://s-apis.learningfuze.com/sgt/get',
             success: function(result) {
-                self.callBack = function() {
-                    var dataLength = result.data.length;
-                    for (var i = 0; i < dataLength; i++) {
-                        tempData[i] = result.data[i];
-                    }
-                }
+                console.log(typeof result.data);
+                loadData(result.data, obj1, obj2);
             }
         });
-        return tempData;
     };
 
 };
