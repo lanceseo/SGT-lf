@@ -5,19 +5,11 @@ var g_primer = null;
 // var myStorage = localStorage;
 
 $("document").ready(function() {
-    $(".btn-success").on("click", function() {
+    $(".addData").on("click", function() {
 
     });
-    $(".btn-primary").on("click", function() {
+    $(".getData").on("click", function() {
         a_API.getDataFromServer(a_SGT, a_DOM);
-
-        //if (a_SGT.studentArray != "") {
-        //    console.log(a_SGT.studentArray);
-        //
-        //}
-        //else {
-        //    console.log("data not ready");
-        //}
 
     });
 });
@@ -51,8 +43,8 @@ var Student = function() {
 
 var SGT_API = function() {
     var self = this;
-    self.getDataFromServer = function (obj1, obj2) {
-        var apiKey = '2VSlnQzAoX';
+    var apiKey = '2VSlnQzAoX';
+    self.getDataFromServer = function(obj1, obj2) {
         $.ajax({
             dataType: 'json',
             method: 'post',
@@ -63,6 +55,25 @@ var SGT_API = function() {
             success: function(result) {
                 console.log(typeof result.data);
                 loadData(result.data, obj1, obj2);
+            }
+        });
+    };
+    self.addDataToServer = function() {
+        $.ajax({
+            // api_key: the string for my api access
+            // student object that contains all of this student's data
+            dataType: 'json',
+            method: 'post',
+            data: {
+                api_key: '2VSlnQzAoX',
+                name: s_name,
+                course: s_course,
+                grade: s_grade
+            },
+            url: 'http://s-apis.learningfuze.com/sgt/create',
+            success: function(result) {
+                console.log("New ID: ", result.new_id);
+                newSID = result.new_id;
             }
         });
     };
