@@ -6,11 +6,10 @@ var g_primer = null;
 
 $("document").ready(function() {
     $(".addData").on("click", function() {
-
+        a_DOM.getInput();
     });
     $(".getData").on("click", function() {
         a_API.getDataFromServer(a_SGT, a_DOM);
-
     });
 });
 
@@ -93,9 +92,10 @@ var SGT_DOM = function() {
         }
     };
     self.getInput = function() {
-        var sName = $("#studentName");
-        var sCourse = $("#course");
-        var sGrade = $("#studentGrade");
+        var sName = $("#studentName").val();
+        var sCourse = $("#course").val();
+        var sGrade = $("#studentGrade").val();
+        console.log(sName, sCourse, sGrade);
     }
 
 };
