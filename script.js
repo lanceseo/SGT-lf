@@ -53,19 +53,17 @@ var SGT_API = function() {
             },
             url: 'http://s-apis.learningfuze.com/sgt/get',
             success: function(result) {
-                console.log(typeof result.data);
+                //console.log(typeof result.data);
                 loadData(result.data, obj1, obj2);
             }
         });
     };
     self.addDataToServer = function() {
         $.ajax({
-            // api_key: the string for my api access
-            // student object that contains all of this student's data
             dataType: 'json',
             method: 'post',
             data: {
-                api_key: '2VSlnQzAoX',
+                api_key: apiKey,
                 name: s_name,
                 course: s_course,
                 grade: s_grade
@@ -93,6 +91,11 @@ var SGT_DOM = function() {
             tr.append(tdId, tdName, tdCourse, tdGrade);
             $(".student-list tbody").append(tr);
         }
+    };
+    self.getInput = function() {
+        var sName = $("#studentName");
+        var sCourse = $("#course");
+        var sGrade = $("#studentGrade");
     }
 
 };
