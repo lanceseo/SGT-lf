@@ -6,29 +6,25 @@ var g_primer = null;
 
 $("document").ready(function() {
     $(".addData").on("click", function() {
-        a_DOM.getInput();
+        a_DOM.getInput(a_Student);
+        a_API.addDataToServer(a_Student.name, a_Student.course, a_Student.grade);
     });
     $(".getData").on("click", function() {
         a_API.getDataFromServer(a_SGT, a_DOM);
     });
 });
 
-
 function loadData(data, obj1, obj2) {
-    console.log(data, obj1, obj2);
+    // console.log(data, obj1, obj2);
     obj1.setStudentArray(data);
     obj2.populate(obj1.studentArray);
 }
 
 var SGT = function() {
     var self = this;
-    //self.studentArray = [];
     self.setStudentArray = function(serverData) {
         self.studentArray = serverData;
-        //a_DOM.populate(a_SGT.studentArray);
-        //console.log(self.studentArray);
     }
-
 };
 
 var Student = function() {
@@ -37,7 +33,6 @@ var Student = function() {
     self.name = "";
     self.course = "";
     self.grade = null;
-
 };
 
 var SGT_API = function() {
@@ -52,29 +47,26 @@ var SGT_API = function() {
             },
             url: 'http://s-apis.learningfuze.com/sgt/get',
             success: function(result) {
-                //console.log(typeof result.data);
                 loadData(result.data, obj1, obj2);
             }
         });
     };
-    self.addDataToServer = function() {
+    self.addDataToServer = function(sName, sCourse, sGrade) {
         $.ajax({
             dataType: 'json',
             method: 'post',
             data: {
                 api_key: apiKey,
-                name: s_name,
-                course: s_course,
-                grade: s_grade
+                name: sName,
+                course: sCourse,
+                grade: sGrade
             },
             url: 'http://s-apis.learningfuze.com/sgt/create',
             success: function(result) {
                 console.log("New ID: ", result.new_id);
-                newSID = result.new_id;
             }
         });
     };
-
 };
 
 var SGT_DOM = function() {
@@ -91,13 +83,15 @@ var SGT_DOM = function() {
             $(".student-list tbody").append(tr);
         }
     };
-    self.getInput = function() {
+    self.getInput = function(newStudent) {
         var sName = $("#studentName").val();
         var sCourse = $("#course").val();
         var sGrade = $("#studentGrade").val();
         console.log(sName, sCourse, sGrade);
+        newStudent.name = sName;
+        newStudent.course = sCourse;
+        newStudent.grade = sGrade;
     }
-
 };
 
 
