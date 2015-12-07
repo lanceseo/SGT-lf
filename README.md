@@ -1,5 +1,3 @@
-# SGT - Student Grade Table
-
 ## Version 3.0
 #### Description
 Version 3.0 has you creating the backend code required to facilitate the SGT.
@@ -23,4 +21,5 @@ For your challenge, you were required to make a database schema for SGT.  Now yo
       - data (optional): any courses that match the specified course string, if any
     - Hint:
       - use mysql's partial text search LIKE instead of = in your SELECT query.  You can also use DISTINCT to get only one entry per variation rather than multiple copies of the same thing
+
 
