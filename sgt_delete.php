@@ -3,7 +3,7 @@ require('mysql_connect.php');
 
 $sgtID = $_POST['student_id'];
 
-$query = "DELETE from students WHERE id=$sgtID";
+$query = "DELETE FROM students WHERE id=$sgtID";
 mysqli_query($conn, $query);
 
 if (mysqli_affected_rows($conn)>0) {
@@ -13,7 +13,7 @@ if (mysqli_affected_rows($conn)>0) {
     print_r(json_encode($result));
 }
 else {
-    print_r('Operation failed');
+    print_r('SQL operation failed');
 }
 
 ?>

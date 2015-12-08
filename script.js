@@ -7,6 +7,7 @@ $("document").ready(function() {
         // Get data from server
         a_DOM.clearTable();
         a_API.getDataFromServer(a_SGT, a_DOM);
+        a_DOM.clearInputs();
     });
 
     $(".cancelData").on("click", function() {
@@ -16,8 +17,6 @@ $("document").ready(function() {
     $(".getData").on("click", function() {
         a_DOM.clearTable();
         a_API.getDataFromServer(a_SGT, a_DOM);
-        a_SGT.calcAvg();
-        a_DOM.showGradeAvg(a_SGT.gradeAvg);
     });
 
     $(".deleteData").on("click",function() {
@@ -29,12 +28,22 @@ $("document").ready(function() {
     });
 });
 
-// callback to assure data is received from server
-function loadData(data, obj1, obj2) {
-    // console.log(data, obj1, obj2);
-    obj1.setStudentArray(data);
-    obj2.populate(obj1.studentArray);
+// callback to assure data is received from server before calc avg and populating
+function loadData(data, sgtObj, domObj) {
+    // console.log(data, sgtObj, domObj);
+    sgtObj.setStudentArray(data);
+    sgtObj.calcAvg();
+    domObj.populateTable(sgtObj.studentArray);
+    domObj.populateAvg(sgtObj.gradeAvg);
 }
+
+var Student = function() {
+    var self = this;
+    self.id = null;
+    self.name = "";
+    self.course = "";
+    self.grade = null;
+};
 
 var SGT = function() {
     var self = this;
@@ -50,18 +59,10 @@ var SGT = function() {
     };
 };
 
-var Student = function() {
-    var self = this;
-    self.id = null;
-    self.name = "";
-    self.course = "";
-    self.grade = null;
-};
-
 var SGT_API = function() {
     var self = this;
     //var apiKey = '2VSlnQzAoX';
-    self.getDataFromServer = function(obj1, obj2) {
+    self.getDataFromServer = function(sgtObj, domObj) {
         $.ajax({
             dataType: 'json',
             method: 'get',
@@ -71,7 +72,7 @@ var SGT_API = function() {
             url: 'sgt_get.php',
             success: function(result) {
                 console.log("Data received: ", result);
-                loadData(result.output, obj1, obj2);
+                loadData(result.output, sgtObj, domObj);
             },
             error: function() {
                 console.log("an error");
@@ -90,7 +91,6 @@ var SGT_API = function() {
             },
             url: 'sgt_create.php',
             success: function(result) {
-                console.log(result);
                 console.log("Added. New ID: ", result.new_id);
             },
             error: function() {
@@ -127,7 +127,7 @@ var SGT_DOM = function() {
     self.clearTable = function() {
         $(".student-list tbody").empty();
     };
-    self.populate = function(sData) {
+    self.populateTable = function(sData) {
         var sDataLength = sData.length;
         for (var i=0; i<sDataLength; i++) {
             var tr = $("<tr>");
@@ -139,8 +139,9 @@ var SGT_DOM = function() {
             $(".student-list tbody").append(tr);
         }
     };
-    self.showGradeAvg = function(gradeAvg) {
-      $(".avgGrade").val(gradeAvg);
+    self.populateAvg = function(gradeAvg) {
+        $(".avgGrade").empty();
+        $(".avgGrade").append(gradeAvg);
     };
     self.getInput = function(newStudent) {
         var sName = $("#studentName").val();
@@ -155,7 +156,6 @@ var SGT_DOM = function() {
         delStudent.id = $("#studentID").val();
     };
 };
-
 
 var a_Student = new Student();
 var d_Student = new Student();

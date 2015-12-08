@@ -15,9 +15,8 @@ if (mysqli_affected_rows($conn)>0) {
     ];
     print_r(json_encode($result));
 }
-
 else {
-    print_r('No Good');
+    print_r('SQL operation failed');
 }
 
 ?>
