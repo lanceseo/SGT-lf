@@ -12,7 +12,9 @@ if (mysqli_num_rows($result)>0) {
         //print_r('<br>');
     }
 }
-
-print_r(json_encode($output));
+$result = [
+    'success'=>true, 'output'=>$output
+];
+print_r(json_encode($result));
 
 ?>

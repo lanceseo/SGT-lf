@@ -14,6 +14,10 @@ $("document").ready(function() {
         a_DOM.getInput(a_Student);
         a_API.addDataToServer(a_Student.name, a_Student.course, a_Student.grade);
     });
+
+    $(".deleteData").on("click",function() {
+
+    });
 });
 
 function loadData(data, obj1, obj2) {
@@ -52,7 +56,7 @@ var SGT_API = function() {
             success: function(result) {
                 console.log("succeeded");
                 console.log(result);
-                loadData(result, obj1, obj2);
+                loadData(result.output, obj1, obj2);
             }
         });
     };
@@ -68,10 +72,25 @@ var SGT_API = function() {
             },
             url: 'sgt_create.php',
             success: function(result) {
+                console.log(result);
                 console.log("New ID: ", result.new_id);
             }
         });
     };
+    self.deleteFromServer = function(sID) {
+        $.ajax({
+            dataType: 'json',
+            method: 'post',
+            data: {
+                //api_key: '2VSlnQzAoX',
+                student_id: 1585
+            },
+            url: 'http://s-apis.learningfuze.com/sgt/delete',
+            success: function(result) {
+                console.log("Result: ", result);
+            }
+        });
+    }
 };
 
 var SGT_DOM = function() {
@@ -93,7 +112,7 @@ var SGT_DOM = function() {
         var sName = $("#studentName").val();
         var sCourse = $("#course").val();
         var sGrade = $("#studentGrade").val();
-        console.log(sName, sCourse, sGrade);
+        console.log('Input is: ', sName, sCourse, sGrade);
         newStudent.name = sName;
         newStudent.course = sCourse;
         newStudent.grade = sGrade;
