@@ -5,12 +5,14 @@ var g_primer = null;
 // var myStorage = localStorage;
 
 $("document").ready(function() {
+    $(".getData").on("click", function() {
+        console.log('running click Get');
+        a_API.getDataFromServer(a_SGT, a_DOM);
+    });
+
     $(".addData").on("click", function() {
         a_DOM.getInput(a_Student);
         a_API.addDataToServer(a_Student.name, a_Student.course, a_Student.grade);
-    });
-    $(".getData").on("click", function() {
-        a_API.getDataFromServer(a_SGT, a_DOM);
     });
 });
 
@@ -37,17 +39,20 @@ var Student = function() {
 
 var SGT_API = function() {
     var self = this;
-    var apiKey = '2VSlnQzAoX';
+    //var apiKey = '2VSlnQzAoX';
     self.getDataFromServer = function(obj1, obj2) {
+        console.log('running getData');
         $.ajax({
             dataType: 'json',
-            method: 'post',
-            data: {
-                api_key: apiKey
-            },
-            url: 'http://s-apis.learningfuze.com/sgt/get',
+            method: 'get',
+            //data: {
+            //    api_key: apiKey
+            //},
+            url: 'sgt_get.php',
             success: function(result) {
-                loadData(result.data, obj1, obj2);
+                console.log("succeeded");
+                console.log(result);
+                loadData(result, obj1, obj2);
             }
         });
     };
@@ -56,12 +61,12 @@ var SGT_API = function() {
             dataType: 'json',
             method: 'post',
             data: {
-                api_key: apiKey,
+                //api_key: apiKey,
                 name: sName,
                 course: sCourse,
                 grade: sGrade
             },
-            url: 'http://s-apis.learningfuze.com/sgt/create',
+            url: 'sgt_create.php',
             success: function(result) {
                 console.log("New ID: ", result.new_id);
             }
@@ -73,6 +78,7 @@ var SGT_DOM = function() {
     var self = this;
     self.populate = function(sData) {
         var sDataLength = sData.length;
+        console.log(sDataLength);
         for (var i=0; i<sDataLength; i++) {
             var tr = $("<tr>");
             var tdId = $("<td>").text(sData[i].id);
