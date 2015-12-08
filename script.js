@@ -1,25 +1,35 @@
-// v2.5 commented out due to incompleteness
-// ++++++++++ v2.5 > OOP ++++++++++
-var global_student;
-var g_primer = null;
-// var myStorage = localStorage;
+// Backend_v3.0
 
 $("document").ready(function() {
-    $(".getData").on("click", function() {
-        console.log('running click Get');
-        a_API.getDataFromServer(a_SGT, a_DOM);
-    });
-
     $(".addData").on("click", function() {
         a_DOM.getInput(a_Student);
         a_API.addDataToServer(a_Student.name, a_Student.course, a_Student.grade);
+        // Get data from server
+        a_DOM.clearTable();
+        a_API.getDataFromServer(a_SGT, a_DOM);
+    });
+
+    $(".cancelData").on("click", function() {
+        a_DOM.clearInputs();
+    });
+
+    $(".getData").on("click", function() {
+        a_DOM.clearTable();
+        a_API.getDataFromServer(a_SGT, a_DOM);
+        a_SGT.calcAvg();
+        a_DOM.showGradeAvg(a_SGT.gradeAvg);
     });
 
     $(".deleteData").on("click",function() {
-
+        a_DOM.getInputID(d_Student);
+        a_API.deleteFromServer(d_Student.id);
+        // Get data from server
+        a_DOM.clearTable();
+        a_API.getDataFromServer(a_SGT, a_DOM);
     });
 });
 
+// callback to assure data is received from server
 function loadData(data, obj1, obj2) {
     // console.log(data, obj1, obj2);
     obj1.setStudentArray(data);
@@ -30,7 +40,14 @@ var SGT = function() {
     var self = this;
     self.setStudentArray = function(serverData) {
         self.studentArray = serverData;
-    }
+    };
+    self.calcAvg = function() {
+        var gradeTotal = null;
+        for (var i=0; i<self.studentArray.length; i++) {
+            gradeTotal += parseInt(self.studentArray[i].grade);
+        }
+        self.gradeAvg = parseInt((gradeTotal / self.studentArray.length));
+    };
 };
 
 var Student = function() {
@@ -45,7 +62,6 @@ var SGT_API = function() {
     var self = this;
     //var apiKey = '2VSlnQzAoX';
     self.getDataFromServer = function(obj1, obj2) {
-        console.log('running getData');
         $.ajax({
             dataType: 'json',
             method: 'get',
@@ -54,9 +70,11 @@ var SGT_API = function() {
             //},
             url: 'sgt_get.php',
             success: function(result) {
-                console.log("succeeded");
-                console.log(result);
+                console.log("Data received: ", result);
                 loadData(result.output, obj1, obj2);
+            },
+            error: function() {
+                console.log("an error");
             }
         });
     };
@@ -73,7 +91,10 @@ var SGT_API = function() {
             url: 'sgt_create.php',
             success: function(result) {
                 console.log(result);
-                console.log("New ID: ", result.new_id);
+                console.log("Added. New ID: ", result.new_id);
+            },
+            error: function() {
+                console.log("an error");
             }
         });
     };
@@ -83,21 +104,31 @@ var SGT_API = function() {
             method: 'post',
             data: {
                 //api_key: '2VSlnQzAoX',
-                student_id: 1585
+                student_id: sID
             },
-            url: 'http://s-apis.learningfuze.com/sgt/delete',
+            url: 'sgt_delete.php',
             success: function(result) {
-                console.log("Result: ", result);
+                console.log("Deleted: ", result);
+            },
+            error: function() {
+                console.log("an error");
             }
         });
-    }
+    };
 };
 
 var SGT_DOM = function() {
     var self = this;
+    self.clearInputs = function() {
+        $("#studentName").val("");
+        $("#course").val("");
+        $("#studentGrade").val("");
+    };
+    self.clearTable = function() {
+        $(".student-list tbody").empty();
+    };
     self.populate = function(sData) {
         var sDataLength = sData.length;
-        console.log(sDataLength);
         for (var i=0; i<sDataLength; i++) {
             var tr = $("<tr>");
             var tdId = $("<td>").text(sData[i].id);
@@ -108,19 +139,26 @@ var SGT_DOM = function() {
             $(".student-list tbody").append(tr);
         }
     };
+    self.showGradeAvg = function(gradeAvg) {
+      $(".avgGrade").val(gradeAvg);
+    };
     self.getInput = function(newStudent) {
         var sName = $("#studentName").val();
         var sCourse = $("#course").val();
         var sGrade = $("#studentGrade").val();
-        console.log('Input is: ', sName, sCourse, sGrade);
+        //console.log('Input is: ', sName, sCourse, sGrade);
         newStudent.name = sName;
         newStudent.course = sCourse;
         newStudent.grade = sGrade;
-    }
+    };
+    self.getInputID = function(delStudent) {
+        delStudent.id = $("#studentID").val();
+    };
 };
 
 
 var a_Student = new Student();
+var d_Student = new Student();
 var a_SGT = new SGT();
 var a_API = new SGT_API();
 var a_DOM = new SGT_DOM();

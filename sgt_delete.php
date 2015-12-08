@@ -1,22 +1,19 @@
 <?php
 require('mysql_connect.php');
 
-$sgtName = $_POST['name'];
-$sgtCourse = $_POST['course'];
-$sgtGrade = $_POST['grade'];
+$sgtID = $_POST['student_id'];
 
-$query = "INSERT INTO students (name, course, grade) VALUES('$sgtName','$sgtCourse','$sgtGrade')";
+$query = "DELETE from students WHERE id=$sgtID";
 mysqli_query($conn, $query);
 
 if (mysqli_affected_rows($conn)>0) {
-    $new_id = mysqli_insert_id($conn);
     $result = [
-        'success'=>true, 'new_id'=>$new_id
+        'success'=>true, 'del_id'=>$sgtID
     ];
     print_r(json_encode($result));
 }
 else {
-    print_r('No Good');
+    print_r('Operation failed');
 }
 
 ?>
