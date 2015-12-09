@@ -4,8 +4,8 @@ $("document").ready(function() {
     $(".addData").on("click", function() {
         a_DOM.getInput(a_Student);
         a_API.addDataToServer(a_Student.name, a_Student.course, a_Student.grade);
-        // Get data from server
         a_DOM.clearTable();
+        // Get data from server
         a_API.getDataFromServer(a_SGT, a_DOM);
         a_DOM.clearInputs();
     });
@@ -22,8 +22,8 @@ $("document").ready(function() {
     $(".deleteData").on("click",function() {
         a_DOM.getInputID(d_Student);
         a_API.deleteFromServer(d_Student.id);
-        // Get data from server
         a_DOM.clearTable();
+        // Get data from server
         a_API.getDataFromServer(a_SGT, a_DOM);
     });
 });
