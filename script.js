@@ -91,10 +91,13 @@ var SGT_API = function() {
             },
             url: 'sgt_create.php',
             success: function(result) {
-                console.log("Added. New ID: ", result.new_id);
+                console.log(result);
+                if (result.new_id) {
+                    console.log("Added. New ID: ", result.new_id);
+                }
             },
             error: function() {
-                console.log("an error");
+                console.log("Data error");
             }
         });
     };
