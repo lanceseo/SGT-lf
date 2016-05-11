@@ -69,9 +69,10 @@ var SGT_API = function() {
             //data: {
             //    api_key: apiKey
             //},
-            url: 'sgt_get.php',
+            //url: 'sgt_get.php',
+            url: 'http://localhost:8890/lfz/SGT-lf/sgt_get.php',
             success: function(result) {
-                console.log("Data received: ", result);
+                //console.log("Data received: ", result);
                 loadData(result.output, sgtObj, domObj);
             },
             error: function() {
@@ -89,7 +90,8 @@ var SGT_API = function() {
                 course: sCourse,
                 grade: sGrade
             },
-            url: 'sgt_create.php',
+            //url: 'sgt_create.php',
+            url: 'http://localhost:8890/lfz/SGT-lf/sgt_create.php',
             success: function(result) {
                 console.log(result);
                 if (result.new_id) {
@@ -109,7 +111,8 @@ var SGT_API = function() {
                 //api_key: '2VSlnQzAoX',
                 student_id: sID
             },
-            url: 'sgt_delete.php',
+            //url: 'sgt_delete.php',
+            url: 'http://localhost:8890/lfz/SGT-lf/sgt_delete.php',
             success: function(result) {
                 console.log("Deleted: ", result);
             },
